@@ -1,18 +1,23 @@
 package com.cadastro.api.service;
 
-import java.util.Optional;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.cadastro.api.model.Usuario;
-import com.cadastro.api.repository.UsuarioRepository;
-/*
+
 @Service
-
 public class UsuarioService {
+	
+	public static ResponseEntity<Usuario> nameAndPassword(Usuario u) {
+		if (u.getNome() == null || u.getNome().isEmpty() || u.getSenha() == null || u.getSenha().isEmpty() ) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(u, HttpStatus.OK);
+	}
 
-	private UsuarioRepository repository;
+/*	private UsuarioRepository repository;
 	
 	public UsuarioService(UsuarioRepository repository) {
 		this.repository = repository;
@@ -39,7 +44,6 @@ public class UsuarioService {
 	private String result(Usuario usuario, String mensagem) {
 		return mensagem;
 	}
-	
+	*/
 	
 }
-*/

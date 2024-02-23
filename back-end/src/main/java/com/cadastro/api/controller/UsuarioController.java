@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cadastro.api.model.Usuario;
 import com.cadastro.api.repository.UsuarioRepository;
 //import com.cadastro.api.service.UsuarioService;
+import com.cadastro.api.service.UsuarioService;
 
 @RestController
 @RequestMapping("/api")
@@ -27,8 +28,8 @@ public class UsuarioController {
 	private UsuarioRepository repository;
 	
 	@PostMapping(value = "/usuarios")
-	public Usuario register(@RequestBody Usuario usuario) {
-		return repository.save(usuario);
+	public ResponseEntity<Usuario> register(@RequestBody Usuario usuario) {
+		return UsuarioService.nameAndPassword(usuario);
 	}
 	
 	@PutMapping(value = "/usuarios")
@@ -45,6 +46,11 @@ public class UsuarioController {
 	public Optional<Usuario> returnUserById(
 			@PathVariable Integer id) {
 		return repository.findById(id);
+	}
+	
+	@GetMapping("/usuarios/{nome}")
+	public List<Usuario> returnByName(@PathVariable String nome) {
+		return repository.findByNomeIgnoreCase(nome);
 	}
 	
 	@DeleteMapping(value = "/usuarios/{id}")
