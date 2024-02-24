@@ -1,20 +1,42 @@
 package com.cadastro.api.service;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cadastro.api.model.Usuario;
+import com.cadastro.api.repository.UsuarioRepository;
+import com.cadastro.api.service.exceptions.UsuarioException;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 @Service
 public class UsuarioService {
 	
-	public static ResponseEntity<Usuario> nameAndPassword(Usuario u) {
+	@Autowired
+	private UsuarioRepository repository;
+	@PersistenceContext
+	private EntityManager entity = null;
+	
+	public Usuario validateNameAndPassword(Usuario u) {
 		if (u.getNome() == null || u.getNome().isEmpty() || u.getSenha() == null || u.getSenha().isEmpty() ) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			throw new UsuarioException("Nome e Senha são obrigatórios.");
 		}
 		
-		return new ResponseEntity<>(u, HttpStatus.OK);
+		return u;
+	}
+	
+	public void deleteUsuarioById(Integer id) {
+		if (existsById(id)) {
+			repository.deleteById(id);
+		} else {
+			throw new UsuarioException("Id não encontrado.");
+		}
+	}
+	
+	private boolean existsById(Integer id) {
+			return entity.createNamedQuery("Usuario.deleteById", Boolean.class)
+			.setParameter("id", id).getSingleResult();
 	}
 
 /*	private UsuarioRepository repository;

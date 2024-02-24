@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-//@NamedQuery(name = "Usuario.alterById")
+@NamedQuery(name = "Usuario.deleteById", query = "select count(u) > 0 from Usuario u where u.id = :id")
 @Table(name = "TB_Usuario")
 public class Usuario implements Serializable {
 

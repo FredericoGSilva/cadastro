@@ -12,4 +12,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 	// Consulta personalizada ->
 	List<Usuario> findByNomeIgnoreCase(String nome);
 	
+	void deleteById(Integer id);
 }
